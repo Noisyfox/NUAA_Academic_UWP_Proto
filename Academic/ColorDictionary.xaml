@@ -1,0 +1,43 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Academic">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <Color x:Key="TextColor">#ff292f33</Color>
+            <Color x:Key="SubTextColor">#ff8c8d8d</Color>
+            <Color x:Key="WhiteColor">#ffffffff</Color>
+            <Color x:Key="TransWhiteColor">#efff</Color>
+            <Color x:Key="PressedColor">#ffebeef0</Color>
+            <Color x:Key="MainBlueColor">#ff4e9cd7</Color>
+            <Color x:Key="DarkBlueColor">#ff1c6399</Color>
+            <Color x:Key="MediumBlueColor">#ff50a5e6</Color>
+            <Color x:Key="LightBlueColor">#ffd1e9fb</Color>
+            <Color x:Key="LightBlueTransColor">#6663bcff</Color>
+            <Color x:Key="BlackColor">#ff000000</Color>
+            <Color x:Key="DarkerColor">#1000</Color>
+            <Color x:Key="TextLoginNormalColor">#ffffffff</Color>
+            <Color x:Key="TextLoginDisabledColor">#66ffffff</Color>
+            <Color x:Key="BtnLoginNormalColor">#1fff</Color>
+            <Color x:Key="BtnLoginPressedColor">#1000</Color>
+            <Color x:Key="TextCourseScheduleColor">#ffffffff</Color>
+            <Color x:Key="BtnFreeRoomNormalColor">#3fff</Color>
+            <Color x:Key="BtnFreeRoomPressedColor">#1000</Color>
+            <Color x:Key="DarkTextColor">#222222</Color>
+            <Color x:Key="CustomWeeksDividerColor">#0fff</Color>
+
+            <SolidColorBrush x:Key="BackgroundWhiteColorBrush" Color="{ThemeResource WhiteColor}" />
+            <SolidColorBrush x:Key="BackgroundTransWhiteColorBrush" Color="{ThemeResource TransWhiteColor}" />
+            <SolidColorBrush x:Key="BackgroundMainBlueColorBrush" Color="{ThemeResource MainBlueColor}" />
+            <SolidColorBrush x:Key="BackgroundDarkBlueColorBrush" Color="{ThemeResource DarkBlueColor}" />
+            <SolidColorBrush x:Key="TextColorBrush" Color="{ThemeResource TextColor}" />
+            <SolidColorBrush x:Key="SubTextColorBrush" Color="{ThemeResource SubTextColor}" />
+            <SolidColorBrush x:Key="CourseScheduleDividerBrush" Color="{ThemeResource LightBlueTransColor}" />
+            <SolidColorBrush x:Key="CourseScheduleBorderBrush" Color="#3fff" />
+            <LinearGradientBrush x:Key="BackgroundBlueLinearGradientBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="{ThemeResource DarkBlueColor}" Offset="0" />
+                <GradientStop Color="{ThemeResource MainBlueColor}" Offset="1" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>
