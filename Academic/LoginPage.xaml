@@ -26,9 +26,9 @@
         </Border>
         <CheckBox x:Name="SavePswCheckBox" Content="保存密码" RelativePanel.Below="UserInfoGroup" RelativePanel.AlignLeftWith="UserInfoGroup"/>
 
-        <Button x:Name="LoginButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" BorderBrush="{x:Null}">
+        <Button x:Name="LoginButton" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" BorderBrush="{x:Null}" Click="LoginButton_Click">
             <Button.Content>
-                <FontIcon Glyph="&#xE930;" FontSize="48"/>
+                <FontIcon Glyph="&#xE761;" FontSize="48"/>
             </Button.Content>
         </Button>
 
