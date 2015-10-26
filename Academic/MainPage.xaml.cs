@@ -46,6 +46,8 @@ namespace Academic
 
         public TestDedNotificationViewModel DedNotificationViewModel { get; } = new TestDedNotificationViewModel();
 
+        public AcademicToolsListsViewModel AcademicToolsViewModel { get; } = new AcademicToolsListsViewModel();
+
         private void CalcDedNotificationGrid(ApplicationView v)
         {
             var vgv = DedNotificationGrid.ItemsPanelRoot as VariableSizedWrapGrid;

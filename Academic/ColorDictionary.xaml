@@ -32,6 +32,7 @@
             <SolidColorBrush x:Key="BackgroundDarkBlueColorBrush" Color="{ThemeResource DarkBlueColor}" />
             <SolidColorBrush x:Key="TextColorBrush" Color="{ThemeResource TextColor}" />
             <SolidColorBrush x:Key="SubTextColorBrush" Color="{ThemeResource SubTextColor}" />
+            <SolidColorBrush x:Key="TextDarkBlueColorBrush" Color="{ThemeResource DarkBlueColor}" />
             <SolidColorBrush x:Key="CourseScheduleDividerBrush" Color="{ThemeResource LightBlueTransColor}" />
             <SolidColorBrush x:Key="CourseScheduleBorderBrush" Color="#3fff" />
             <LinearGradientBrush x:Key="BackgroundBlueLinearGradientBrush" EndPoint="0.5,1" StartPoint="0.5,0">
