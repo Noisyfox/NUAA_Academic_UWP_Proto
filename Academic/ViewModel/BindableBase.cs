@@ -15,17 +15,14 @@ namespace Academic.ViewModel
             }
 
             storage = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             return true;
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler eventHandler = this.PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            var eventHandler = PropertyChanged;
+            eventHandler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

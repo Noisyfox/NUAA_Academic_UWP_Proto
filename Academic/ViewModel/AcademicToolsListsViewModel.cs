@@ -68,7 +68,7 @@ namespace Academic.ViewModel
 
         private void NavigateTo(object item)
         {
-            AcademicToolsItem clickedItem = item as AcademicToolsItem;
+            var clickedItem = item as AcademicToolsItem;
             if (clickedItem != null && clickedItem.SourcePage != null)
             {
                 //NavigationService.Navigate(clickedItem.SourcePage);
@@ -77,12 +77,8 @@ namespace Academic.ViewModel
 
         private bool CanNavigateTo(object item)
         {
-            AcademicToolsItem clickedItem = item as AcademicToolsItem;
-            if (clickedItem != null && clickedItem.SourcePage != null)
-            {
-                return true;
-            }
-            return false;
+            var clickedItem = item as AcademicToolsItem;
+            return clickedItem?.SourcePage != null;
         }
 
         RelayCommand _navigateCommand;
