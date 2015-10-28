@@ -80,7 +80,10 @@ namespace Academic.Common
                 _childFrame.Navigated -= OnNavigated;
             }
             _childFrame = f;
-            _childFrame.Navigated += OnNavigated;
+            if (_childFrame != null)
+            {
+                _childFrame.Navigated += OnNavigated;
+            }
             UpdateNavigateState();
         }
 

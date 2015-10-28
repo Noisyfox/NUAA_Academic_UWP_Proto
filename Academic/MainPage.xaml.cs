@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Academic.Common;
 using Academic.ViewModel;
 
@@ -53,8 +41,8 @@ namespace Academic
             var h = av.VisibleBounds.Height;
             CalcDedNotificationGrid(w, h);
             CalcDedToolsView(w, h);
-            GlobalNavigationManager.Instance.SetChlidFrame(_dedFrame);
-            GlobalNavigationManager.Instance.ChildNavigate(typeof(EmptyPage));
+            _dedFrame.Navigate(typeof(EmptyPage));
+            Pivot_SelectionChanged();
         }
 
         private void MainPage_VisibleBoundsChanged(ApplicationView sender, object args)
@@ -102,17 +90,21 @@ namespace Academic
             
         }
 
-        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Pivot_SelectionChanged(object sender = null, SelectionChangedEventArgs e = null)
         {
             if (MainPivot.SelectedIndex == 2)
             {
                 DedToolsFullRoot.Visibility = Visibility.Visible;
                 UpdateDedToolsPage(AdaptiveStates.CurrentState);
+
+                GlobalNavigationManager.Instance.SetChlidFrame(_dedFrame);
             }
             else
             {
                 DedToolsFullRoot.Visibility = Visibility.Collapsed;
                 UpdateDedToolsPage(DefaultState);
+
+                GlobalNavigationManager.Instance.SetChlidFrame(null);
             }
         }
 
@@ -127,11 +119,13 @@ namespace Academic
             {
                 DedToolsFullRoot.Child = null;
                 DedToolsSplitRoot.Child = _dedFrame;
+                AcademicToolsViewModel.CanSelect = true;
             }
             else
             {
                 DedToolsSplitRoot.Child = null;
                 DedToolsFullRoot.Child = _dedFrame;
+                AcademicToolsViewModel.CanSelect = false;
             }
         }
     }

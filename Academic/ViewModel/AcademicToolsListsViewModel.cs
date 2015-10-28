@@ -38,19 +38,19 @@ namespace Academic.ViewModel
     /// <summary>
     ///  教务功能列表定义
     /// </summary>
-    public sealed class AcademicToolsListsViewModel
+    public sealed class AcademicToolsListsViewModel : BindableBase
     {
         public AcademicToolsListsViewModel()
         {
-            Items.Add(new AcademicToolsItem("空闲教室", "Assets/ToolIcons/Room Filled-64.png", 0xffa3bfd7, typeof(BlankPage1)));
-            Items.Add(new AcademicToolsItem("我的成绩", "Assets/ToolIcons/Ratings Filled-64.png", 0xff77c9d1, typeof(BlankPage1)));
-            Items.Add(new AcademicToolsItem("修读课程", "Assets/ToolIcons/Class Filled-64.png", 0xffd4a0cd, typeof(BlankPage1)));
-            Items.Add(new AcademicToolsItem("其它课表", "Assets/ToolIcons/Week View Filled-64.png", 0xfff9c11b, typeof(BlankPage1)));
-            Items.Add(new AcademicToolsItem("考试安排", "Assets/ToolIcons/Day View Filled-64.png", 0xff77c9d1, typeof(BlankPage1)));
-            Items.Add(new AcademicToolsItem("选课", "Assets/ToolIcons/Checklist Filled-64.png", 0xffff4c00, typeof(BlankPage1)));
-            Items.Add(new AcademicToolsItem("校车时刻", "Assets/ToolIcons/Bus Filled-64.png", 0xfff9c11b, typeof(BlankPage1)));
-            Items.Add(new AcademicToolsItem("校历", "Assets/ToolIcons/Calendar Filled-64.png", 0xffd4a0cd, typeof(BlankPage1)));
-            Items.Add(new AcademicToolsItem("常用电话", "Assets/ToolIcons/Phone Filled-64.png", 0xffa3bfd7, typeof(BlankPage1)));
+            Items.Add(new AcademicToolsItem("空闲教室", "Assets/ToolIcons/Room Filled-64.png", 0xffa3bfd7, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("我的成绩", "Assets/ToolIcons/Ratings Filled-64.png", 0xff77c9d1, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("修读课程", "Assets/ToolIcons/Class Filled-64.png", 0xffd4a0cd, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("其它课表", "Assets/ToolIcons/Week View Filled-64.png", 0xfff9c11b, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("考试安排", "Assets/ToolIcons/Day View Filled-64.png", 0xff77c9d1, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("选课", "Assets/ToolIcons/Checklist Filled-64.png", 0xffff4c00, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("校车时刻", "Assets/ToolIcons/Bus Filled-64.png", 0xfff9c11b, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("校历", "Assets/ToolIcons/Calendar Filled-64.png", 0xffd4a0cd, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("常用电话", "Assets/ToolIcons/Phone Filled-64.png", 0xffa3bfd7, typeof(ScorePage)));
         }
 
         public ObservableCollection<AcademicToolsItem> Items { get; } = new ObservableCollection<AcademicToolsItem>();
@@ -67,7 +67,7 @@ namespace Academic.ViewModel
         private bool CanNavigateTo(object item)
         {
             var clickedItem = item as AcademicToolsItem;
-            return clickedItem?.SourcePage != null;
+            return !CanSelect && clickedItem?.SourcePage != null;
         }
 
         private RelayCommand _navigateCommand;
@@ -81,5 +81,26 @@ namespace Academic.ViewModel
             }
             set { _navigateCommand = value; }
         }
+
+        private AcademicToolsItem _selectedItem;
+
+        public AcademicToolsItem SelectedTool
+        {
+            get { return _selectedItem; }
+            set
+            {
+                if (value != _selectedItem)
+                {
+                    _selectedItem = value;
+                    if (_selectedItem != null)
+                    {
+                        GlobalNavigationManager.Instance.ChildNavigate(_selectedItem.SourcePage);
+                    }
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public bool CanSelect { get; set; }
     }
 }
