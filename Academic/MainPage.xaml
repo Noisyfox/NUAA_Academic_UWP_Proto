@@ -288,7 +288,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ButtonStyle1" TargetType="Button">
+        <Style x:Key="ClassScheduleButtonStyle" TargetType="Button">
             <Setter Property="ContentTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -367,7 +367,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <DataTemplate x:Key="DataTemplate1">
+        <DataTemplate x:Key="DedToolsDataTemplate">
             <Grid Width="110" Height="110" Background="{Binding ColorBrush}" Padding="10">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -379,155 +379,114 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Pivot Background="White" Style="{StaticResource MainPivotStyle}"
+    <Grid>
+        <Pivot x:Name="MainPivot" Background="White" Style="{StaticResource MainPivotStyle}"
            HeaderTemplate="{StaticResource MainHeaderTemplate}"
-           ItemContainerStyle="{StaticResource MainPivotItemStyle}">
-        <Pivot.RightHeader>
-            <Button VerticalAlignment="Stretch" HorizontalAlignment="Center">
-                <Button.Content>
-                    <FontIcon Glyph="&#xE713;" />
-                </Button.Content>
-            </Button>
-        </Pivot.RightHeader>
+           ItemContainerStyle="{StaticResource MainPivotItemStyle}" SelectionChanged="Pivot_SelectionChanged">
+            <Pivot.RightHeader>
+                <Button VerticalAlignment="Stretch" HorizontalAlignment="Center">
+                    <Button.Content>
+                        <FontIcon Glyph="&#xE713;" />
+                    </Button.Content>
+                </Button>
+            </Pivot.RightHeader>
 
-        <PivotItem Header="教务通知"
+            <PivotItem Header="教务通知"
                    DataContext="{Binding DedNotificationViewModel}">
-            <ui:VariableGridView SelectionMode="None" ItemsSource="{Binding Notifications}"
+                <ui:VariableGridView SelectionMode="None" ItemsSource="{Binding Notifications}"
                                  x:Name="DedNotificationGrid">
-                <ui:VariableGridView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="2">
-                            <Image Source="{Binding Image}"
+                    <ui:VariableGridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="2">
+                                <Image Source="{Binding Image}"
                                    Stretch="UniformToFill"
                                    VerticalAlignment="Stretch"
                                    HorizontalAlignment="Stretch" />
-                            <StackPanel Margin="4"
+                                <StackPanel Margin="4"
                                         VerticalAlignment="Bottom"
                                         HorizontalAlignment="Left">
-                                <TextBlock Text="{Binding Name}"
+                                    <TextBlock Text="{Binding Name}"
                                            HorizontalAlignment="Center"
                                            Foreground="White"
                                            FontSize="16"
                                            Margin="6" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ui:VariableGridView.ItemTemplate>
-                <ui:VariableGridView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VariableSizedWrapGrid
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ui:VariableGridView.ItemTemplate>
+                    <ui:VariableGridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VariableSizedWrapGrid
                             ItemHeight="150"
                             ItemWidth="150"
                             MaximumRowsOrColumns="4" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ui:VariableGridView.ItemsPanel>
-            </ui:VariableGridView>
-        </PivotItem>
+                        </ItemsPanelTemplate>
+                    </ui:VariableGridView.ItemsPanel>
+                </ui:VariableGridView>
+            </PivotItem>
 
-        <PivotItem Header="个人课表">
-            <RelativePanel>
-                <CommandBar x:Name="ScheduleCommandBar" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True"
+            <PivotItem Header="个人课表">
+                <RelativePanel>
+                    <CommandBar x:Name="ScheduleCommandBar" RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignLeftWithPanel="True"
                             RelativePanel.AlignRightWithPanel="True" x:DeferLoadStrategy="Lazy" Visibility="Collapsed">
-                    <AppBarButton Icon="GoToToday" Label="今天"/>
-                    <AppBarButton Icon="Add" Label="自定义"/>
-                    <CommandBar.SecondaryCommands>
-                        <AppBarButton Icon="Download" Label="保存到本地"/>
-                    </CommandBar.SecondaryCommands>
-                </CommandBar>
-                <ComboBox x:Name="ScheduleTermComboBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Style="{StaticResource BorderlessComboBoxStyle}" SelectedIndex="0" Margin="16,0,0,0">
-                    <ComboBoxItem Content="2015-16 学期1"/>
-                    <ComboBoxItem Content="2015-16 学期1"/>
-                    <ComboBoxItem Content="2015-16 学期1"/>
-                    <ComboBoxItem Content="2015-16 学期1"/>
-                    <ComboBoxItem Content="2015-16 学期1"/>
-                    <ComboBoxItem Content="2015-16 学期1"/>
-                </ComboBox>
-                <ComboBox x:Name="ScheduleWeekComboBox" RelativePanel.AlignTopWithPanel="True" Style="{StaticResource BorderlessComboBoxStyle}" SelectedIndex="0" Margin="0,0,16,0">
-                    <ComboBoxItem Content="第1周"/>
-                    <ComboBoxItem Content="第1周"/>
-                    <ComboBoxItem Content="第1周"/>
-                    <ComboBoxItem Content="第1周"/>
-                    <ComboBoxItem Content="第1周"/>
-                    <ComboBoxItem Content="第1周"/>
-                    <ComboBoxItem Content="第1周"/>
-                </ComboBox>
-                <StackPanel x:Name="ScheduleCommandBarTop" x:DeferLoadStrategy="Lazy" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWith="ScheduleWeekComboBox" Margin="0,0,16,0" RelativePanel.RightOf="" Orientation="Horizontal">
-                    <Button VerticalAlignment="Stretch" Style="{StaticResource TopBarButtonStyle}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <FontIcon Glyph="&#xE109;"  FontSize="18.667"/>
-                                <TextBlock Text="自定义"  FontSize="14.667" Margin="2,0,0,0" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Button VerticalAlignment="Stretch" Style="{StaticResource TopBarButtonStyle}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <FontIcon Glyph="&#xE118;"  FontSize="18.667"/>
-                                <TextBlock Text="保存到本地"  FontSize="14.667" Margin="2,0,0,0" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                    <Rectangle Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" Width="1"/>
-                    <Button VerticalAlignment="Stretch" Style="{StaticResource TopBarButtonStyle}">
-                        <Button.Content>
-                            <StackPanel Orientation="Horizontal">
-                                <FontIcon Glyph="&#xE184;"  FontSize="18.667"/>
-                                <TextBlock Text="今天"  FontSize="14.667" Margin="2,0,0,0" />
-                            </StackPanel>
-                        </Button.Content>
-                    </Button>
-                </StackPanel>
+                        <AppBarButton Icon="GoToToday" Label="今天"/>
+                        <AppBarButton Icon="Add" Label="自定义"/>
+                        <CommandBar.SecondaryCommands>
+                            <AppBarButton Icon="Download" Label="保存到本地"/>
+                        </CommandBar.SecondaryCommands>
+                    </CommandBar>
+                    <ComboBox x:Name="ScheduleTermComboBox" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True" Style="{StaticResource BorderlessComboBoxStyle}" SelectedIndex="0" Margin="16,0,0,0">
+                        <ComboBoxItem Content="2015-16 学期1"/>
+                        <ComboBoxItem Content="2015-16 学期1"/>
+                        <ComboBoxItem Content="2015-16 学期1"/>
+                        <ComboBoxItem Content="2015-16 学期1"/>
+                        <ComboBoxItem Content="2015-16 学期1"/>
+                        <ComboBoxItem Content="2015-16 学期1"/>
+                    </ComboBox>
+                    <ComboBox x:Name="ScheduleWeekComboBox" RelativePanel.AlignTopWithPanel="True" Style="{StaticResource BorderlessComboBoxStyle}" SelectedIndex="0" Margin="0,0,16,0">
+                        <ComboBoxItem Content="第1周"/>
+                        <ComboBoxItem Content="第1周"/>
+                        <ComboBoxItem Content="第1周"/>
+                        <ComboBoxItem Content="第1周"/>
+                        <ComboBoxItem Content="第1周"/>
+                        <ComboBoxItem Content="第1周"/>
+                        <ComboBoxItem Content="第1周"/>
+                    </ComboBox>
+                    <StackPanel x:Name="ScheduleCommandBarTop" x:DeferLoadStrategy="Lazy" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignBottomWith="ScheduleWeekComboBox" Margin="0,0,16,0" RelativePanel.RightOf="" Orientation="Horizontal">
+                        <Button VerticalAlignment="Stretch" Style="{StaticResource TopBarButtonStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE109;"  FontSize="18.667"/>
+                                    <TextBlock Text="自定义"  FontSize="14.667" Margin="2,0,0,0" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Button VerticalAlignment="Stretch" Style="{StaticResource TopBarButtonStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE118;"  FontSize="18.667"/>
+                                    <TextBlock Text="保存到本地"  FontSize="14.667" Margin="2,0,0,0" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                        <Rectangle Fill="{ThemeResource SystemControlForegroundBaseMediumLowBrush}" Width="1"/>
+                        <Button VerticalAlignment="Stretch" Style="{StaticResource TopBarButtonStyle}">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE184;"  FontSize="18.667"/>
+                                    <TextBlock Text="今天"  FontSize="14.667" Margin="2,0,0,0" />
+                                </StackPanel>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
 
-                <Grid x:Name="ScheduleContent" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="ScheduleTermComboBox">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-
-                    <Grid Height="50">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="28"/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                    <Grid x:Name="ScheduleContent" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.Below="ScheduleTermComboBox">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition Height="3"/>
                         </Grid.RowDefinitions>
-                        <Border BorderThickness="1" BorderBrush="{ThemeResource CourseScheduleDividerBrush}" Grid.RowSpan="3" Grid.ColumnSpan="8"/>
-                        <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.RowSpan="3"/>
-                        <TextBlock Grid.Column="0" Margin="0" Text="10月" TextAlignment="Center" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Column="1" Margin="0" Text="26" TextAlignment="Center" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Column="2" Margin="0" Text="27" TextAlignment="Center" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Column="3" Margin="0" Text="28" TextAlignment="Center" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Column="4" Margin="0" Text="29" TextAlignment="Center" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Column="5" Margin="0" Text="30" TextAlignment="Center" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Column="6" Margin="0" Text="31" TextAlignment="Center" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Column="7" Margin="0" Text="11月" TextAlignment="Center" VerticalAlignment="Bottom"/>
-                        <TextBlock Grid.Column="1" Margin="0" Grid.Row="1" Text="一" TextAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Margin="0" Grid.Row="1" Text="二" TextAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="3" Margin="0" Grid.Row="1" Text="三" TextAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="4" Margin="0" Grid.Row="1" Text="四" TextAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="5" Margin="0" Grid.Row="1" Text="五" TextAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="6" Margin="0" Grid.Row="1" Text="六" TextAlignment="Center" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="7" Margin="0" Grid.Row="1" Text="日" TextAlignment="Center" VerticalAlignment="Center"/>
-                        <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="1" Grid.Row="2"/>
-                        <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="2" Grid.Row="2" Visibility="Collapsed"/>
-                        <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="3" Grid.Row="2" Visibility="Collapsed"/>
-                        <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="4" Grid.Row="2" Visibility="Collapsed"/>
-                        <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="5" Grid.Row="2" Visibility="Collapsed"/>
-                        <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="6" Grid.Row="2" Visibility="Collapsed"/>
-                        <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="7" Grid.Row="2" Visibility="Collapsed"/>
-                    </Grid>
-                    <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
-                        <Grid VerticalAlignment="Top" Margin="0,0,0,5">
+
+                        <Grid Height="50">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="28"/>
                                 <ColumnDefinition/>
@@ -539,155 +498,227 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="94"/>
-                                <RowDefinition Height="94"/>
-                                <RowDefinition Height="1"/>
-                                <RowDefinition Height="94"/>
-                                <RowDefinition Height="94"/>
-                                <RowDefinition Height="1"/>
-                                <RowDefinition Height="94"/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition Height="3"/>
                             </Grid.RowDefinitions>
-                            <Border BorderThickness="1" BorderBrush="{ThemeResource CourseScheduleDividerBrush}"  Grid.RowSpan="7" Grid.ColumnSpan="9"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.RowSpan="7"/>
-                            <Border Height="1" Background="{ThemeResource CourseScheduleDividerBrush}" Grid.ColumnSpan="9" Grid.Row="2"/>
-                            <Border Height="1" Background="{ThemeResource CourseScheduleDividerBrush}" Grid.ColumnSpan="9" Grid.Row="5"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="1"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="2"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="3"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="4"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="5"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="6"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,0,1" Grid.Column="7"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="1" Grid.Row="1"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="2" Grid.Row="1"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="3" Grid.Row="1"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="4" Grid.Row="1"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="5" Grid.Row="1"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="6" Grid.Row="1"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="1" Grid.Row="3"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="2" Grid.Row="3"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="3" Grid.Row="3"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="4" Grid.Row="3"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="5" Grid.Row="3"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="6" Grid.Row="3"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,0,1" Grid.Column="7" Grid.Row="3"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="1" Grid.Row="4"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="2" Grid.Row="4"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="3" Grid.Row="4"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="4" Grid.Row="4"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="5" Grid.Row="4"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="6" Grid.Row="4"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="1" Grid.Row="6"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="2" Grid.Row="6"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="3" Grid.Row="6"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="4" Grid.Row="6"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="5" Grid.Row="6"/>
-                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="6" Grid.Row="6"/>
-
-                            <Grid Grid.RowSpan="7">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-
-                                <TextBlock Text="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                <TextBlock Text="2" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
-                                <TextBlock Text="3" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2"/>
-                                <TextBlock Text="4" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3"/>
-                                <TextBlock Text="5" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4"/>
-                                <TextBlock Text="6" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="5"/>
-                                <TextBlock Text="7" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="6"/>
-                                <TextBlock Text="8" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="7"/>
-                                <TextBlock Text="9" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="8"/>
-                                <TextBlock Text="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="9"/>
-                            </Grid>
-
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="1"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="2"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="3"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="4"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="5"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="6"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="7"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="1" Grid.Row="1"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="2" Grid.Row="1"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="3" Grid.Row="1"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="4" Grid.Row="1"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="5" Grid.Row="1"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="6" Grid.Row="1"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="7" Grid.Row="1"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="1" Grid.Row="3"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="2" Grid.Row="3"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="3" Grid.Row="3"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="4" Grid.Row="3"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="5" Grid.Row="3"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="6" Grid.Row="3"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="7" Grid.Row="3"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="1" Grid.Row="4"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="2" Grid.Row="4"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="3" Grid.Row="4"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="4" Grid.Row="4"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="5" Grid.Row="4"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="6" Grid.Row="4"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="7" Grid.Row="4"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="1" Grid.Row="6"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="2" Grid.Row="6"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="3" Grid.Row="6"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="4" Grid.Row="6"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="5" Grid.Row="6"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="6" Grid.Row="6"/>
-                            <Button Style="{StaticResource ButtonStyle1}" Grid.Column="7" Grid.Row="6"/>
+                            <Border BorderThickness="1" BorderBrush="{ThemeResource CourseScheduleDividerBrush}" Grid.RowSpan="3" Grid.ColumnSpan="8"/>
+                            <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.RowSpan="3"/>
+                            <TextBlock Grid.Column="0" Margin="0" Text="10月" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Column="1" Margin="0" Text="26" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Column="2" Margin="0" Text="27" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Column="3" Margin="0" Text="28" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Column="4" Margin="0" Text="29" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Column="5" Margin="0" Text="30" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Column="6" Margin="0" Text="31" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Column="7" Margin="0" Text="11月" TextAlignment="Center" VerticalAlignment="Bottom"/>
+                            <TextBlock Grid.Column="1" Margin="0" Grid.Row="1" Text="一" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="2" Margin="0" Grid.Row="1" Text="二" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="3" Margin="0" Grid.Row="1" Text="三" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="4" Margin="0" Grid.Row="1" Text="四" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="5" Margin="0" Grid.Row="1" Text="五" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="6" Margin="0" Grid.Row="1" Text="六" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="7" Margin="0" Grid.Row="1" Text="日" TextAlignment="Center" VerticalAlignment="Center"/>
+                            <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="1" Grid.Row="2"/>
+                            <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="2" Grid.Row="2" Visibility="Collapsed"/>
+                            <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="3" Grid.Row="2" Visibility="Collapsed"/>
+                            <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="4" Grid.Row="2" Visibility="Collapsed"/>
+                            <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="5" Grid.Row="2" Visibility="Collapsed"/>
+                            <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="6" Grid.Row="2" Visibility="Collapsed"/>
+                            <Border Background="{ThemeResource BackgroundMainBlueColorBrush}" Grid.Column="7" Grid.Row="2" Visibility="Collapsed"/>
                         </Grid>
-                    </ScrollViewer>
-                </Grid>
-            </RelativePanel>
-        </PivotItem>
+                        <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" HorizontalContentAlignment="Stretch" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                            <Grid VerticalAlignment="Top" Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="94"/>
+                                    <RowDefinition Height="94"/>
+                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="94"/>
+                                    <RowDefinition Height="94"/>
+                                    <RowDefinition Height="1"/>
+                                    <RowDefinition Height="94"/>
+                                </Grid.RowDefinitions>
+                                <Border BorderThickness="1" BorderBrush="{ThemeResource CourseScheduleDividerBrush}"  Grid.RowSpan="7" Grid.ColumnSpan="9"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.RowSpan="7"/>
+                                <Border Height="1" Background="{ThemeResource CourseScheduleDividerBrush}" Grid.ColumnSpan="9" Grid.Row="2"/>
+                                <Border Height="1" Background="{ThemeResource CourseScheduleDividerBrush}" Grid.ColumnSpan="9" Grid.Row="5"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="1"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="2"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="3"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="4"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="5"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="6"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,0,1" Grid.Column="7"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="1" Grid.Row="1"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="2" Grid.Row="1"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="3" Grid.Row="1"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="4" Grid.Row="1"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="5" Grid.Row="1"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="6" Grid.Row="1"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="1" Grid.Row="3"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="2" Grid.Row="3"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="3" Grid.Row="3"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="4" Grid.Row="3"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="5" Grid.Row="3"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,1" Grid.Column="6" Grid.Row="3"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,0,1" Grid.Column="7" Grid.Row="3"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="1" Grid.Row="4"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="2" Grid.Row="4"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="3" Grid.Row="4"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="4" Grid.Row="4"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="5" Grid.Row="4"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="6" Grid.Row="4"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="1" Grid.Row="6"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="2" Grid.Row="6"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="3" Grid.Row="6"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="4" Grid.Row="6"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="5" Grid.Row="6"/>
+                                <Border BorderBrush="{ThemeResource CourseScheduleDividerBrush}" BorderThickness="0,0,1,0" Grid.Column="6" Grid.Row="6"/>
 
-        <PivotItem Header="教务工具" DataContext="{Binding AcademicToolsViewModel}">
-            <GridView ItemTemplate="{StaticResource DataTemplate1}" ItemsSource="{Binding Items}" SelectionMode="None" IsItemClickEnabled="True" Padding="10"
+                                <Grid Grid.RowSpan="7">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="2" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
+                                    <TextBlock Text="3" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2"/>
+                                    <TextBlock Text="4" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3"/>
+                                    <TextBlock Text="5" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4"/>
+                                    <TextBlock Text="6" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="5"/>
+                                    <TextBlock Text="7" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="6"/>
+                                    <TextBlock Text="8" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="7"/>
+                                    <TextBlock Text="9" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="8"/>
+                                    <TextBlock Text="10" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="9"/>
+                                </Grid>
+
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="1"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="2"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="3"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="4"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="5"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="6"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="7"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="1" Grid.Row="1"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="2" Grid.Row="1"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="3" Grid.Row="1"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="4" Grid.Row="1"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="5" Grid.Row="1"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="6" Grid.Row="1"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="7" Grid.Row="1"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="1" Grid.Row="3"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="2" Grid.Row="3"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="3" Grid.Row="3"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="4" Grid.Row="3"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="5" Grid.Row="3"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="6" Grid.Row="3"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="7" Grid.Row="3"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="1" Grid.Row="4"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="2" Grid.Row="4"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="3" Grid.Row="4"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="4" Grid.Row="4"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="5" Grid.Row="4"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="6" Grid.Row="4"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="7" Grid.Row="4"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="1" Grid.Row="6"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="2" Grid.Row="6"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="3" Grid.Row="6"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="4" Grid.Row="6"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="5" Grid.Row="6"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="6" Grid.Row="6"/>
+                                <Button Style="{StaticResource ClassScheduleButtonStyle}" Grid.Column="7" Grid.Row="6"/>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+                </RelativePanel>
+            </PivotItem>
+
+            <PivotItem Header="教务工具" DataContext="{Binding AcademicToolsViewModel}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition x:Name="MasterColumn" Width="250" />
+                        <ColumnDefinition x:Name="DetailColumn" Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <GridView ItemTemplate="{StaticResource DedToolsDataTemplate}" ItemsSource="{Binding Items}" SelectionMode="None" IsItemClickEnabled="True" Padding="10"
                         cm:ItemClickCommand.Command="{Binding Path=NavigateCommand}"/>
-        </PivotItem>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="620" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ScheduleWeekComboBox.(RelativePanel.RightOf)" Value="ScheduleTermComboBox"/>
-                        <Setter Target="ScheduleTermComboBox.Width" Value="200"/>
-                        <Setter Target="ScheduleWeekComboBox.Width" Value="110"/>
-                        <Setter Target="ScheduleTermComboBox.FontSize" Value="24"/>
-                        <Setter Target="ScheduleWeekComboBox.FontSize" Value="24"/>
-                        <Setter Target="ScheduleCommandBar.Visibility" Value="Collapsed"/>
-                        <Setter Target="ScheduleCommandBarTop.Visibility" Value="Visible"/>
-                        <Setter Target="ScheduleContent.(RelativePanel.AlignBottomWithPanel)" Value="True"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ScheduleWeekComboBox.(RelativePanel.AlignRightWithPanel)" Value="True"/>
-                        <Setter Target="ScheduleTermComboBox.Width" Value="150"/>
-                        <Setter Target="ScheduleWeekComboBox.Width" Value="84"/>
-                        <Setter Target="ScheduleTermComboBox.FontSize" Value="16"/>
-                        <Setter Target="ScheduleWeekComboBox.FontSize" Value="16"/>
-                        <Setter Target="ScheduleCommandBar.Visibility" Value="Visible"/>
-                        <Setter Target="ScheduleCommandBarTop.Visibility" Value="Collapsed"/>
-                        <Setter Target="ScheduleContent.(RelativePanel.Above)" Value="ScheduleCommandBar"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-    </Pivot>
+
+                    <Image Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="None" Source="Assets/Square150x150LogoBlue.png"/>
+                    <Border x:Name="DedToolsSplitRoot" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="1,0,0,0" BorderBrush="{ThemeResource CourseScheduleDividerBrush}"/>
+                </Grid>
+            </PivotItem>
+        </Pivot>
+        <Border x:Name="DedToolsFullRoot" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="620" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="ScheduleWeekComboBox.(RelativePanel.RightOf)" Value="ScheduleTermComboBox"/>
+                            <Setter Target="ScheduleTermComboBox.Width" Value="200"/>
+                            <Setter Target="ScheduleWeekComboBox.Width" Value="110"/>
+                            <Setter Target="ScheduleTermComboBox.FontSize" Value="24"/>
+                            <Setter Target="ScheduleWeekComboBox.FontSize" Value="24"/>
+                            <Setter Target="ScheduleCommandBar.Visibility" Value="Collapsed"/>
+                            <Setter Target="ScheduleCommandBarTop.Visibility" Value="Visible"/>
+                            <Setter Target="ScheduleContent.(RelativePanel.AlignBottomWithPanel)" Value="True"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState>
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="ScheduleWeekComboBox.(RelativePanel.AlignRightWithPanel)" Value="True"/>
+                            <Setter Target="ScheduleTermComboBox.Width" Value="150"/>
+                            <Setter Target="ScheduleWeekComboBox.Width" Value="84"/>
+                            <Setter Target="ScheduleTermComboBox.FontSize" Value="16"/>
+                            <Setter Target="ScheduleWeekComboBox.FontSize" Value="16"/>
+                            <Setter Target="ScheduleCommandBar.Visibility" Value="Visible"/>
+                            <Setter Target="ScheduleCommandBarTop.Visibility" Value="Collapsed"/>
+                            <Setter Target="ScheduleContent.(RelativePanel.Above)" Value="ScheduleCommandBar"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+
+                <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
+                    <VisualState x:Name="DefaultState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="720" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+
+                    <VisualState x:Name="NarrowState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Target="MasterColumn.Width" Value="*" />
+                            <Setter Target="DetailColumn.Width" Value="0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+    </Grid>
 </Page>
