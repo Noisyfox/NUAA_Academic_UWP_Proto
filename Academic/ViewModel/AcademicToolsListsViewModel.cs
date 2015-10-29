@@ -42,7 +42,7 @@ namespace Academic.ViewModel
     {
         public AcademicToolsListsViewModel()
         {
-            Items.Add(new AcademicToolsItem("空闲教室", "Assets/ToolIcons/Room Filled-64.png", 0xffa3bfd7, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("空闲教室", "Assets/ToolIcons/Room Filled-64.png", 0xffa3bfd7, typeof(FreeRoomPage)));
             Items.Add(new AcademicToolsItem("我的成绩", "Assets/ToolIcons/Ratings Filled-64.png", 0xff77c9d1, typeof(ScorePage)));
             Items.Add(new AcademicToolsItem("修读课程", "Assets/ToolIcons/Class Filled-64.png", 0xffd4a0cd, typeof(ScorePage)));
             Items.Add(new AcademicToolsItem("其它课表", "Assets/ToolIcons/Week View Filled-64.png", 0xfff9c11b, typeof(ScorePage)));
