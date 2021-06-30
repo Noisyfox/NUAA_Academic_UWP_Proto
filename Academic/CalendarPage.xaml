@@ -1,0 +1,60 @@
+﻿<Page
+    x:Class="Academic.CalendarPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Academic"
+    xmlns:ui="using:Academic.UIComponent"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          x:Name="PageRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <ComboBox x:Name="ScheduleTermComboBox" RelativePanel.AlignLeftWithPanel="True"
+                  RelativePanel.AlignTopWithPanel="True" Style="{StaticResource BorderlessComboBoxStyle}"
+                  SelectedIndex="0" Margin="16,0,0,0">
+            <ComboBoxItem Content="2015-16 学期1" />
+            <ComboBoxItem Content="2015-16 学期1" />
+            <ComboBoxItem Content="2015-16 学期1" />
+            <ComboBoxItem Content="2015-16 学期1" />
+            <ComboBoxItem Content="2015-16 学期1" />
+            <ComboBoxItem Content="2015-16 学期1" />
+        </ComboBox>
+        
+        <WebView x:Name="WebContent" Grid.Row="1" NavigationStarting="WebContent_NavigationStarting" NavigationFailed="WebContent_NavigationFailed" NavigationCompleted="WebContent_NavigationCompleted"/>
+
+        <ProgressBar x:Name="LoadingBar" Grid.Row="1" IsIndeterminate="True" VerticalAlignment="Top" Visibility="Collapsed"/>
+        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <ui:ControlSizeTrigger TargetElement="{x:Bind Path=PageRoot}" MinWidth="620" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ScheduleTermComboBox.Width" Value="200" />
+                        <Setter Target="ScheduleTermComboBox.FontSize" Value="24" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <ui:ControlSizeTrigger TargetElement="{x:Bind Path=PageRoot}" MinWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ScheduleTermComboBox.Width" Value="150" />
+                        <Setter Target="ScheduleTermComboBox.FontSize" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>

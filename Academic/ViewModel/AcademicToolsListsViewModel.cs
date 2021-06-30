@@ -49,7 +49,7 @@ namespace Academic.ViewModel
             Items.Add(new AcademicToolsItem("考试安排", "Assets/ToolIcons/Day View Filled-64.png", 0xff77c9d1, typeof(ScorePage)));
             Items.Add(new AcademicToolsItem("选课", "Assets/ToolIcons/Checklist Filled-64.png", 0xffff4c00, typeof(ScorePage)));
             Items.Add(new AcademicToolsItem("校车时刻", "Assets/ToolIcons/Bus Filled-64.png", 0xfff9c11b, typeof(ScorePage)));
-            Items.Add(new AcademicToolsItem("校历", "Assets/ToolIcons/Calendar Filled-64.png", 0xffd4a0cd, typeof(ScorePage)));
+            Items.Add(new AcademicToolsItem("校历", "Assets/ToolIcons/Calendar Filled-64.png", 0xffd4a0cd, typeof(CalendarPage)));
             Items.Add(new AcademicToolsItem("常用电话", "Assets/ToolIcons/Phone Filled-64.png", 0xffa3bfd7, typeof(ScorePage)));
         }
 
